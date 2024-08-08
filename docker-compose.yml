@@ -7,6 +7,7 @@ services:
       - 80:8000
     depends_on: 
       - db 
+    network_mode: bridge
 
   db:
     image: postgres:16.3-alpine3.20
@@ -19,10 +20,7 @@ services:
       - 5432:5432
     volumes:
       - ./db:/var/lib/postgresql/data
-
-networks:
-  default:
-    driver: host
+    network_mode: bridge
 
 volumes:
   db:

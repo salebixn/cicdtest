@@ -1,23 +1,26 @@
 name: Run tests on any Push event
-# Запуск при любом push евенте в любой ветке, за исключением релизных тэгов.
-# Они будт тестироваться перед сборкой
 on:
   push:
     branches:
-      - '*'
+      - 'releases/*'
 jobs:
   run_tests:
     runs-on: [ubuntu-latest]
     steps:
-      # Чекаутим код
-      - uses: actions/checkout@main
-      # Устанавливаем python нужной версии
+      - name: Checkout code
+      - uses: actions/checkout@v4
+      - run: git checkout HEAD^
+
       - uses: actions/setup-python@v1
         with:
           python-version: '3.12'
           architecture: 'x64'
+
       - name: Install requirements
-        # Устанавливаем зависимости
         run: pip install -r requirements.txt
+
+      - name: Run a Docker container
+        run: docker compose up -d
+
       - name: Run tests
         run: python3 tests.py

@@ -19,13 +19,6 @@ services:
       - 5432:5432
     volumes:
       - ./db:/var/lib/postgresql/data
-  
-  # tests:
-  #   image: ubuntu:24.04
-  #   container_name: tests
-  #   depends_on:
-  #     - db
-  #     - python-app
 
 volumes:
   db:

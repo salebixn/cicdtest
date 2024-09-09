@@ -25,7 +25,7 @@ jobs:
         with:
           compose-file: "./docker-compose.yml"
 
-      - name: Wait
+      - name: Wait for postgres up
         uses: GuillaumeFalourd/wait-sleep-action@v1
         with:
           time: '20'

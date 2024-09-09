@@ -1,38 +1,12 @@
-name: Run tests on master pull request
+name: Run tests on any Push event
 on:
-  pull_request:
+  push:
     branches:
-      - 'master'
-      - 'main'
-
+      - 'releases/**'
+      - 'feature/**'
 jobs:
-  upload:
+  run_tests:
     runs-on: [ubuntu-latest]
     steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.ref }}
-
-      - uses: ./.github/workflows/test_on_push.yml
-
-      - name: Compress action step
-        uses: a7ul/tar-action@v1.1.0
-        id: compress
-        with:
-          command: c
-          cwd: ./
-          files: |
-            ./Dockerfile
-            ./docker-compose.yml
-            ./main.py
-            ./requirements.txt
-          outPath: src.tar.gz
-
-      - name: Upload to ftp server
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: 37.143.8.66
-          username: my
-          password: ${{ secrets.FTP_PASSWORD }}
-          exclude: |
-            [!src.tar.gz]
+      - name: composite
+        uses: ./.github/actions/setup-composite

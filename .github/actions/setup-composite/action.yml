@@ -21,12 +21,13 @@ runs:
           ./main.py
           ./requirements.txt
         outPath: src.tar.gz
-        
+
     - name: Upload to ftp server
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
         server: 37.143.8.66
         username: my
-        password: ${{ secrets.FTP_PASSWORD }}
         exclude: |
           [!src.tar.gz]
+      secrets:  
+        password: ${{ secrets.FTP_PASSWORD }}

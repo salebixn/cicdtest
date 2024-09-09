@@ -1,0 +1,58 @@
+name: Run tests on master pull request
+on:
+  push:
+    branches:
+      - 'master'
+      - 'main'
+jobs:
+  run_tests:
+    runs-on: [ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
+      - uses: actions/setup-python@v1
+        with:
+          python-version: '3.12'
+          architecture: 'x64'
+
+      - name: Install requirements
+        run: pip install -r requirements.txt
+
+      - name: Run docker-compose
+        uses: hoverkraft-tech/compose-action@v2.0.1
+        with:
+          compose-file: "./docker-compose.yml"
+
+      - name: Wait for postgres up
+        uses: GuillaumeFalourd/wait-sleep-action@v1
+        with:
+          time: '20'
+      
+      - name: Run tests
+        run: python3 tests.py
+
+      - name: Compress action step
+        uses: a7ul/tar-action@v1.1.0
+        id: compress
+        with:
+          command: c
+          cwd: ./
+          files: |
+            ./Dockerfile
+            ./docker-compose.yml
+            ./main.py
+            ./requirements.txt
+          outPath: src.tar.gz
+
+      - name: Upload to ftp server
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        secrets:
+          "ftp_password=${{ secrets.FTP_PASSWORD }}"
+        with:
+          server: 37.143.8.66
+          username: my
+          password: ftp_password
+          exclude: |
+            [!src.tar.gz]

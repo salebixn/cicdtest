@@ -1,0 +1,10 @@
+name: composite action
+
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/checkout@v4
+      with:
+        ref: ${{ github.ref }}
+
+    - uses: ./.github/workflows/test_on_push.yml

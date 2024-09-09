@@ -9,6 +9,10 @@ jobs:
   upload:
     runs-on: [ubuntu-latest]
     steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
       - uses: ./.github/workflows/test_on_push.yml
 
       - name: Compress action step

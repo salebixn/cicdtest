@@ -1,4 +1,4 @@
-name: Run tests on any Push event
+name: Run tests on master pull request
 on:
   push:
     branches:
@@ -8,5 +8,9 @@ jobs:
   run_tests:
     runs-on: [ubuntu-latest]
     steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+          
       - name: composite
         uses: ./.github/actions/setup-composite

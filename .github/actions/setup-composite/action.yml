@@ -24,10 +24,11 @@ runs:
 
     - name: Upload to ftp server
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      env:
+        ftp_password: ${{ secrets.FTP_PASSWORD }}
       with:
         server: 37.143.8.66
         username: my
+        password: $ftp_password
         exclude: |
           [!src.tar.gz]
-      secrets:  
-        password: ${{ secrets.FTP_PASSWORD }}

@@ -6,24 +6,28 @@ on:
 
 jobs:
   upload:
-    - name: Compress action step
-      uses: a7ul/tar-action@v1.1.0
-      id: compress
-      with:
-        command: c
-        cwd: ./
-        files: |
-          ./Dockerfile
-          ./docker-compose.yml
-          ./main.py
-          ./requirements.txt
-        outPath: src.tar.gz
+    runs-on: [ubuntu-latest]
+    steps:
+      - uses: ./.github/workflows/test_on_push.yml
 
-    - name: Upload to ftp server
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-      with:
-        server: 37.143.8.66
-        username: my
-        password: ${{ secrets.FTP_PASSWORD }}
-        exclude: |
-          [!src.tar.gz]
+      - name: Compress action step
+        uses: a7ul/tar-action@v1.1.0
+        id: compress
+        with:
+          command: c
+          cwd: ./
+          files: |
+            ./Dockerfile
+            ./docker-compose.yml
+            ./main.py
+            ./requirements.txt
+          outPath: src.tar.gz
+
+      - name: Upload to ftp server
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: 37.143.8.66
+          username: my
+          password: ${{ secrets.FTP_PASSWORD }}
+          exclude: |
+            [!src.tar.gz]

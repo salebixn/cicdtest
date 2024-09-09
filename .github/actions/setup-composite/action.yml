@@ -24,8 +24,6 @@ runs:
 
     - name: Upload to ftp server
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-      secrets: |
-        "ftp_password: ${{ secrets.FTP_PASSWORD }}"
       with:
         server: 37.143.8.66
         username: my

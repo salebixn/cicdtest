@@ -47,10 +47,10 @@ jobs:
           outPath: src.tar.gz
 
       - name: Upload to ftp server
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        uses: sebastianpopp/ftp-action@releases/v2
         with:
-          server: 37.143.8.66
-          username: my
+          host: 37.143.8.66
+          user: my
           password: ${{ secrets.FTP_PASSWORD }}
-          exclude: |
-            [!src.tar.gz]
+          localDir: "src.tar.gz"
+          remoteDir: "./"

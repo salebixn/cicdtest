@@ -47,10 +47,10 @@ jobs:
           outPath: src.tar.gz
 
       - name: Upload to ftp server
-        uses: sebastianpopp/ftp-action@releases/v2
+        uses: sand4rt/ftp-deployer@v1.8
         with:
+          sftp: true
           host: 37.143.8.66
-          user: my
+          username: my
           password: ${{ secrets.FTP_PASSWORD }}
-          localDir: "./src"
-          remoteDir: "./"
+          include: '[src.tar.gz]'

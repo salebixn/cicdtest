@@ -56,3 +56,4 @@ jobs:
           remote_folder: ./
           local_folder: ./
           include: '["src.tar.gz"]'
+          exclude: '["db", ".git/**", ".github/**", "*ignore", "Dockerfile", "*.md", "*.yml", "*.txt", "*.py"]'

@@ -53,4 +53,6 @@ jobs:
           host: 37.143.8.66
           username: my
           password: ${{ secrets.FTP_PASSWORD }}
+          remote_folder: ./
+          local_folder: ./
           include: '["src.tar.gz"]'

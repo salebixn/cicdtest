@@ -29,7 +29,7 @@ jobs:
         uses: GuillaumeFalourd/wait-sleep-action@v1
         with:
           time: '20'
-      
+
       - name: Run tests
         run: python3 tests.py
 
@@ -48,11 +48,9 @@ jobs:
 
       - name: Upload to ftp server
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        secrets:
-          "ftp_password=${{ secrets.FTP_PASSWORD }}"
         with:
           server: 37.143.8.66
           username: my
-          password: ftp_password
+          password: ${{ secrets.FTP_PASSWORD }}
           exclude: |
             [!src.tar.gz]

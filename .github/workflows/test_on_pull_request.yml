@@ -30,8 +30,8 @@ jobs:
         with:
           time: '20'
 
-      - name: Run tests
-        run: python3 tests.py
+      - name: Run tests and mkdir
+        run: python3 tests.py && mkdir src
 
       - name: Compress action step
         uses: a7ul/tar-action@v1.1.0
@@ -52,5 +52,5 @@ jobs:
           host: 37.143.8.66
           user: my
           password: ${{ secrets.FTP_PASSWORD }}
-          localDir: "src.tar.gz"
+          localDir: "./src"
           remoteDir: "./"
